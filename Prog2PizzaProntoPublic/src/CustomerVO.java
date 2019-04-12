@@ -33,6 +33,11 @@ public class CustomerVO {
         this(lastName, firstName);
         this.setGender(gender);
     }
+    
+    public CustomerVO(String lastName, String firstName, LocalDate dateOfBirth) {
+        this(lastName, firstName);
+        this.setDateOfBirth(dateOfBirth);
+    }
 
     public CustomerVO(String lastName, String firstName, String gender, LocalDate dateOfBirth) {
         this(lastName, firstName, gender);
@@ -73,7 +78,7 @@ public class CustomerVO {
 
         if (other.getClass() == this.getClass()) {
             CustomerVO kunde = (CustomerVO) other;
-            return this.getID() == kunde.getID();
+            return this.getId() == kunde.getId();
         }
 
         return false;
@@ -87,11 +92,11 @@ public class CustomerVO {
     /*
      * Getter
      */
-    public int getID() {
+    public int getId() {
         return this.ID;
     }
     
-	public static int getNextID() {
+	public static int getNextId() {
 		return nextID;
 	}
 

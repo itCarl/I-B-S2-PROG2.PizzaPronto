@@ -28,7 +28,7 @@ public class ChefVO {
     public int hashCode() {
         final int hashMultiplier = 31;
         int result = 1;
-        result = hashMultiplier * result + ((this.getcolorApron() == null) ? 0 : this.getcolorApron().hashCode());
+        result = hashMultiplier * result + ((this.getColorApron() == null) ? 0 : this.getColorApron().hashCode());
         result = hashMultiplier * result + ((this.getLastName() == null) ? 0 : this.getLastName().hashCode());
         result = hashMultiplier * result + ((this.getFirstName() == null) ? 0 : this.getFirstName().hashCode());
         return result;
@@ -47,7 +47,7 @@ public class ChefVO {
     }
 
     public String toString() {
-        return "Koch " + this.getFirstName() + " " + this.getLastName() + " hat eine " + this.getcolorApron() + " Schürze";
+        return "Koch " + this.getFirstName() + " " + this.getLastName() + " hat eine " + this.getColorApron() + " Schürze";
     }
     
     
@@ -70,7 +70,7 @@ public class ChefVO {
         this.firstName = firstName;
     }
 
-    public Color getcolorApron() {
+    public Color getColorApron() {
         return colorApron;
     }
     

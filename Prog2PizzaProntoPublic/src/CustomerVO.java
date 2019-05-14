@@ -3,15 +3,14 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 
-public class CustomerVO {
+public class CustomerVO extends PersonVO{
 
     private static int nextID = 0; // global counter
 
     private final int ID;
-    private String lastName;
-    private String firstName;
     private String gender;		   // Men or Women 
     private LocalDate dateOfBirth; // Age > 17
+    private OrderVO order;
     
     
     
@@ -19,8 +18,7 @@ public class CustomerVO {
      * Constructors
      */
     public CustomerVO() {
-        this.ID = nextID;
-        nextID++;
+        this.ID = nextID++;
     }
 
     public CustomerVO(String lastName, String firstName) {
@@ -41,6 +39,13 @@ public class CustomerVO {
 
     public CustomerVO(String lastName, String firstName, String gender, LocalDate dateOfBirth) {
         this(lastName, firstName, gender);
+        this.setDateOfBirth(dateOfBirth);
+    }
+    
+    public CustomerVO (String lastName, String firstName, String street, int houseNumber, String gender, LocalDate dateOfBirth) {
+    	super(lastName, firstName, street, houseNumber);  
+    	this.ID = nextID++;
+    	this.setGender(gender);
         this.setDateOfBirth(dateOfBirth);
     }
 
@@ -99,14 +104,6 @@ public class CustomerVO {
 	public static int getNextId() {
 		return nextID;
 	}
-
-    public String getLastName() {
-        return lastName;
-    }
-    
-    public String getFirstName() {
-        return firstName;
-    }
     
     public String getGender() {
         return gender;
@@ -124,14 +121,6 @@ public class CustomerVO {
     /*
      * Setter
      */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
     public void setGender(String gender) {
         this.gender = (gender == "männlich" || gender == "weiblich") ? gender : null;
     }

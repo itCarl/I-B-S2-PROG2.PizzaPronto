@@ -1,10 +1,8 @@
 import java.awt.Color;
 
 
-public class ChefVO {
+public class ChefVO extends EmployeeVO {
 
-    private String lastName;
-    private String firstName;
     private Color colorApron;
 	
     
@@ -15,65 +13,30 @@ public class ChefVO {
     	
     }
 
-    public ChefVO(String lastName, String firstName, Color colorApron) {
-        this.setLastName(lastName);
-        this.setFirstName(firstName);
-        this.setColorApron(colorApron);
+    public ChefVO(String personellNo, String lastName, String firstName) {
+        super(personellNo, lastName, firstName);
     }
     
     
-    /*
-     * General Methods
-     */
-    public int hashCode() {
-        final int hashMultiplier = 31;
-        int result = 1;
-        result = hashMultiplier * result + ((this.getColorApron() == null) ? 0 : this.getColorApron().hashCode());
-        result = hashMultiplier * result + ((this.getLastName() == null) ? 0 : this.getLastName().hashCode());
-        result = hashMultiplier * result + ((this.getFirstName() == null) ? 0 : this.getFirstName().hashCode());
-        return result;
-    }
-
-    public boolean equals(Object other) {
-        if (other == null)
-            return false;
-
-        if (other.getClass() == this.getClass()) {
-        	ChefVO koch = (ChefVO) other;
-            return this.hashCode() == koch.hashCode();
-        }
-
-        return false;
-    }
-
-    public String toString() {
-        return "Koch " + this.getFirstName() + " " + this.getLastName() + " hat eine " + this.getColorApron() + " Schürze";
-    }
+	/*
+	 * Helper / General Methods
+	 */
+    @Override
+	public String toString() {
+		return super.toString() + " -> Chef [colorApron=" + colorApron + "]";
+	}
     
     
-    /*
-     * Getter & Setter
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
+	/**
+	 * @return the colorApron
+	 */
     public Color getColorApron() {
         return colorApron;
     }
     
+	/**
+	 * @return the colorApron
+	 */
     public void setColorApron(Color colorApron) {
         if (colorApron == null)
             this.colorApron = Color.BLACK;

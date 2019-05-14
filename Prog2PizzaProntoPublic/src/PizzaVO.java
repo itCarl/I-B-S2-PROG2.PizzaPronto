@@ -1,12 +1,10 @@
-import java.util.Arrays;
 
 
-public class PizzaVO implements Cloneable {
+public class PizzaVO extends DishVO implements Cloneable {
 	
-    private String name;
-    private float price;
-    private String[] ingredients;
+    private int size;
 
+    
     
     /*
      * Constructors
@@ -14,13 +12,18 @@ public class PizzaVO implements Cloneable {
     public PizzaVO() {
     }
 
-    public PizzaVO(String name, String[] ingredients, float price) {
-        this.setName(name);
-        this.setPrice(price);
-        this.setIngredients(ingredients);
+    public PizzaVO(int number, String name, String[] ingredients, float price) {
+    	super(number, name, ingredients, price);
+    }
+    
+    public PizzaVO(int number, String name, String[] ingredients, float price, int size) {
+    	super(number, name, ingredients, price);
+    	this.setSize(size);
     }
     
     
+    
+//TODO: Übung 6 -> clone Method
     /*
      * General Methods
      */
@@ -31,62 +34,60 @@ public class PizzaVO implements Cloneable {
             return null;
         }
     }
-
-    public int hashCode() {
-        final int hashMultiplier = 31;
-        int hc = 1;
-        hc = hashMultiplier * hc + ((this.getName() == null) ? 0 : this.getName().hashCode());
-        hc = hashMultiplier * hc + Float.floatToIntBits(this.getPrice());
-        hc = hashMultiplier * hc + Arrays.hashCode(this.getIngredients());
-        return hc;
-    }
-
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        
-        if (obj.getClass() == this.getClass()) {
-            PizzaVO pizza = (PizzaVO) obj;
-            return this.hashCode() == pizza.hashCode();
-        }
-
-        return false;
-    }
-
-    public String toString() {
-        return "Pizza " + this.getName() + " mit: " + this.getIngredientsString() + " für " + this.getPrice() + "€";
-    }
     
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + size;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PizzaVO other = (PizzaVO) obj;
+		if (size != other.size)
+			return false;
+		return true;
+	}
+
+    @Override
+	public String toString() {
+		return "PizzaVO [size=" + size + "]";
+	}
     
-    /*
-     * Getter & Setter
-     */
-    public String getName() {
-        return this.name;
-    }
+	public String getNameOfDish() {
+		return super.getName();
+	}
+	
+	public int getNumberOfDish() {
+		return super.getNumber();
+	}
+	
+	
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		return size;
+	}
 
-    public float getPrice() {
-        return this.price;
-    }
-
-    public void setPrice(float price) {
-        this.price = (price > 0.0f) ? price : 0.0f;
-    }
-
-    public String[] getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String[] ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    private String getIngredientsString() {
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+	/*
+	private String getIngredientsString() {
         String ingredientsString = "";
 
         if (this.getIngredients().length == 1) {
@@ -103,4 +104,6 @@ public class PizzaVO implements Cloneable {
 
         return ingredientsString;
     }
+    */
+	
 }

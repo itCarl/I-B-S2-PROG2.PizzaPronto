@@ -1,6 +1,12 @@
 package de.thb.pizzapronto.valueobjects;
 
-
+/**
+ * PastaVO - Contains the Value Object of Pastas
+ * Uebung 6 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class PastaVO extends DishVO {
 	
 	private int typeOfPasta;
@@ -20,11 +26,18 @@ public class PastaVO extends DishVO {
 	}
 
 	
-	
-//TODO: Übung 6 -> clone Method
+
 	/*
 	 * Helper / General Methods
 	 */
+    public PastaVO clone() {
+        try {
+            return (PastaVO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;

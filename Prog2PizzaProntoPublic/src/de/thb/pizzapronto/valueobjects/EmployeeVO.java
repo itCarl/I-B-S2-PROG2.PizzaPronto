@@ -1,6 +1,12 @@
 package de.thb.pizzapronto.valueobjects;
 
-
+/**
+ * EmployeeVO - Contains the Value Object of Employees
+ * Uebung 5 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public abstract class EmployeeVO extends PersonVO {
 	
 	protected String personnelNo;

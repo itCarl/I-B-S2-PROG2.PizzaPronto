@@ -1,8 +1,15 @@
 package de.thb.pizzapronto.valueobjects;
+
 import java.util.Arrays;
 
-
-public abstract class DishVO {
+/**
+ * DishVO - Contains the Value Object of Dishes
+ * Uebung 6 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
+public abstract class DishVO implements Cloneable {
 
 	protected int number;
 	protected String name;
@@ -38,10 +45,18 @@ public abstract class DishVO {
     public abstract int getNumberOfDish();
     
 
-//TODO: Übung 6 -> clone Method  
+    
 	/*
 	 * Helper / General Methods
 	 */
+//    public DishVO clone() {
+//        try {
+//            return (DishVO) super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            return null;
+//        }
+//    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;

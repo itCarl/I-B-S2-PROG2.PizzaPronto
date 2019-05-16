@@ -1,6 +1,14 @@
 package de.thb.pizzapronto.valueobjects;
+
 import java.text.DecimalFormat;
 
+/**
+ * MenuVO - Contains the Value Object of Menus
+ * Uebung 6 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class MenuVO {
 	
 	

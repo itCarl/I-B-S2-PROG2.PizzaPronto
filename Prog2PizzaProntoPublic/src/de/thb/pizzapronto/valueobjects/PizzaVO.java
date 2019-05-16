@@ -1,6 +1,12 @@
 package de.thb.pizzapronto.valueobjects;
 
-
+/**
+ * PizzaVO - Contains the Value Object of Pizzas
+ * Uebung 2 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class PizzaVO extends DishVO implements Cloneable {
 	
     private int size;
@@ -23,8 +29,7 @@ public class PizzaVO extends DishVO implements Cloneable {
     }
     
     
-    
-//TODO: Übung 6 -> clone Method
+
     /*
      * General Methods
      */

@@ -1,7 +1,13 @@
 package de.thb.pizzapronto.valueobjects;
 
-
-public class DessertVO extends DishVO {
+/**
+ * DessertVO - Contains the Value Object of Desserts
+ * Uebung 6 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
+public class DessertVO extends DishVO implements Cloneable {
 	
 	
     /*
@@ -15,12 +21,19 @@ public class DessertVO extends DishVO {
 		super(number, name, price);
 	}
 	
+
 	
-//TODO: Übung 6 -> clone Method	
 	/*
 	 * Helper / Generel Methods
 	 */
-
+    public DessertVO clone() {
+        try {
+            return (DessertVO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+    
 	public String getNameOfDish() {
 		return super.getName();
 	}

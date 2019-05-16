@@ -1,12 +1,19 @@
 package de.thb.pizzapronto.valueobjects;
 
-
+/**
+ * PersonVO - Contains the Value Object of Persons
+ * Uebung 5 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public abstract class PersonVO {
 	
 	protected String lastName;
 	protected String firstName;
 	protected String street;
 	protected int houseNumber;
+	
 	
 	
 	/*
@@ -26,6 +33,8 @@ public abstract class PersonVO {
 		this.setStreet(street);
 		this.setHouseNumber(houseNumber);
 	}
+	
+	
 	
 	/*
 	 * Helper / General Methods

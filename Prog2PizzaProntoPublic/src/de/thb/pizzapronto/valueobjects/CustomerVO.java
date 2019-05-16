@@ -1,15 +1,22 @@
 package de.thb.pizzapronto.valueobjects;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * CustomerVO - Contains the Value Object of Customer
+ * Uebung 2 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class CustomerVO extends PersonVO{
 
     private static int nextID = 0; // global counter
 
     private final int ID;
-    private String gender;		   // Men or Women 
+    private String gender;		   // Men or Woman 
     private LocalDate dateOfBirth; // Age > 17
     private OrderVO order;
     
@@ -19,28 +26,23 @@ public class CustomerVO extends PersonVO{
      * Constructors
      */
     public CustomerVO() {
-        this.ID = nextID++;
+        this(null, null, null, 0, null, null);
     }
 
     public CustomerVO(String lastName, String firstName) {
-        this(); // call default constructor to add 1 to neachsteID
-        this.setLastName(lastName);
-        this.setFirstName(firstName);
+    	this(lastName, firstName, null, 0, null, null);
     }
 
     public CustomerVO(String lastName, String firstName, String gender) {
-        this(lastName, firstName);
-        this.setGender(gender);
+        this(lastName, firstName, null, 0, gender, null);
     }
     
     public CustomerVO(String lastName, String firstName, LocalDate dateOfBirth) {
-        this(lastName, firstName);
-        this.setDateOfBirth(dateOfBirth);
+        this(lastName, firstName, null, 0, null, dateOfBirth);
     }
 
     public CustomerVO(String lastName, String firstName, String gender, LocalDate dateOfBirth) {
-        this(lastName, firstName, gender);
-        this.setDateOfBirth(dateOfBirth);
+    	this(lastName, firstName, null, 0, gender, dateOfBirth);
     }
     
     public CustomerVO (String lastName, String firstName, String street, int houseNumber, String gender, LocalDate dateOfBirth) {
@@ -79,14 +81,14 @@ public class CustomerVO extends PersonVO{
 
         return false;
     }
-
-	@Override
+	
+    @Override
 	public String toString() {
-		return "CustomerVO [ID=" + this.ID + ", gender=" + this.gender + ", dateOfBirth=" + this.dateOfBirth + ", order=" + this.order
+		return super.toString() + " -> CustomerVO [ID=" + ID + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", order=" + order
 				+ "]";
 	}
-	
-    public short calculateAge() {
+
+	public short calculateAge() {
     	if (this.getDateOfBirth() == null)
     		return -1;
     	
@@ -112,7 +114,7 @@ public class CustomerVO extends PersonVO{
 	 * @param gender the gender to set
 	 */
     public void setGender(String gender) {
-        this.gender = (gender == "männlich" || gender == "weiblich") ? gender : null;
+        this.gender = (gender == "men" || gender == "woman") ? gender : null;
     }
 
 	/**

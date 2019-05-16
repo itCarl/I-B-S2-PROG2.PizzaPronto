@@ -2,9 +2,13 @@ package de.thb.pizzapronto.logic;
 
 import de.thb.pizzapronto.valueobjects.*;
 
-
-
-
+/**
+ * IOrdering - Interface for Orders
+ * Uebung 7 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public interface IOrdering {
 	
 	

@@ -1,6 +1,12 @@
 package de.thb.pizzapronto.valueobjects;
 
-
+/**
+ * DeliveryManVO - Contains the Value Object of Delivery Mans
+ * Uebung 5 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class DeliveryManVO extends EmployeeVO {
 	
 	private String driverLicense;

@@ -1,9 +1,17 @@
 package de.thb.pizzapronto.valueobjects;
+
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
-//TODO: toString -> use String Buffer... append();
+/**
+ * OrderVO - Contains the Value Object of Orders
+ * Uebung 4 - 16.05.2019
+ * @author Maximilian Mewes
+ * @version 1.0
+ *
+ */
 public class OrderVO {
 	
 	private int MAX_DISHES = 10;
@@ -24,8 +32,7 @@ public class OrderVO {
     }
     
     public OrderVO(int orderNo, String state, LocalDateTime timestampStartedOrder, CustomerVO customer) {
-    	//TODO: generate Order Number
-    	this.orderNo = 0;
+    	this.orderNo = orderNo;
     	this.state = state;
     	this.setTimestampStartedOrder(timestampStartedOrder);
     	this.customer = customer;
@@ -39,9 +46,41 @@ public class OrderVO {
      */    
 	@Override
 	public String toString() {
-		return "OrderVO [MAX_DISHES=" + this.MAX_DISHES + ", orderNo=" + this.orderNo + ", state=" + this.state + ", index=" + this.index
-				+ ", timestampStartedOrder=" + this.timestampStartedOrder + ", this.timestampDeliveredOrder="
-				+ this.timestampDeliveredOrder + ", shoppingBasket=" + this.shoppingBasket + "]";
+		String dishType;
+		StringBuffer s = new StringBuffer();
+		DecimalFormat dFormat = new DecimalFormat(".00");
+		
+		s.append("OrderVO "+ this.orderNo +" from "+ this.timestampStartedOrderToString() +" "+ this.timestampToTime(this.timestampStartedOrder) +"\n");
+		s.append("\t\t with deliverey at "+ this.timestampDeliveredOrderToString() +" "+ this.timestampToTime(this.timestampDeliveredOrder) +"\n");
+		s.append("\t\t of customer: "+ this.customer.getFirstName() +" "+ this.customer.getLastName() +", ID of customer: "+ this.customer.getID() +"\n");
+		
+		for(DishVO d : this.shoppingBasket) {
+			
+			// check... otherwise null pointer exception
+			if(d != null) {
+				if(d instanceof PizzaVO) {
+					dishType = "Pizza";
+				}else if(d instanceof PastaVO) {
+					dishType = "Pasta";
+				}else if(d instanceof DessertVO) {
+					dishType = "Dessert";
+				}else {
+					dishType = "undefined";
+				}
+				
+				s.append(d.getNumber() +" - "+ dishType+" "+ d.getName() +" > "+ d.ingredientsToString() +"\n");
+				s.append("\tPrice:\t\t\t" + dFormat.format(d.getPrice()) + " Euro");
+				s.append("\n");
+			}
+		}
+		
+		s.append("\n Total Price: " + this.calculatePriceDishes());
+		
+		return s.toString();
+		/*return "OrderVO [MAX_DISHES=" + this.MAX_DISHES + ", orderNo=" + this.orderNo + ", state=" + this.state + ", index=" + this.index
+				+ ", timestampStartedOrder=" + this.timestampStartedOrderToString() + ", timestampDeliveredOrder="
+				+ this.timestampDeliveredOrderToString() + ", shoppingBasket=" + this.shoppingBasket + "]";
+		*/
 	}
 
 	public int hashCode() {
@@ -70,12 +109,19 @@ public class OrderVO {
 		return true;
 	}
 
+	// Started Timestamp to Date
 	private String timestampStartedOrderToString(){
-		return (timestampStartedOrder != null) ? timestampStartedOrder.format(DateTimeFormatter.ofPattern("dd MM yyyy")) : null;
+		return (timestampStartedOrder != null) ? timestampStartedOrder.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null;
 	}
 	
+	// Delivered Timestamp to Date
 	private String timestampDeliveredOrderToString(){	
-		return (timestampDeliveredOrder != null) ? timestampDeliveredOrder.format(DateTimeFormatter.ofPattern("dd MM yyyy")) : null;
+		return (timestampDeliveredOrder != null) ? timestampDeliveredOrder.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : null;
+	}
+	
+	// Timestamp to Hours:minutes
+	private String timestampToTime(LocalDateTime ldt) {
+		return (ldt != null) ? ldt.format(DateTimeFormatter.ofPattern("HH:mm")) : null; 
 	}
 	
 	/* OLD VERSION SHOPPING BASKET
@@ -88,7 +134,7 @@ public class OrderVO {
 	}
 	*/
 	
-	//TODO: check if Dish is already in ShoppingBasket
+	//XXX: check if Dish is already in ShoppingBasket
 	public void addDish(DishVO dish) {
 		for(int i = 0; i <= (this.shoppingBasket.length-1); i++) {
 			if(this.shoppingBasket[i] == null) {
@@ -111,7 +157,8 @@ public class OrderVO {
 		float total = 0;
 		
 		for(DishVO dish : this.shoppingBasket) {
-			total += dish.getPrice();
+			if(dish != null)
+				total += dish.getPrice();
 		}
 		
 		return total;
@@ -216,5 +263,19 @@ public class OrderVO {
 	 */
 	public int getDishes() {
 		return MAX_DISHES;
+	}
+
+	/**
+	 * @return the customer
+	 */
+	public CustomerVO getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * @param customer the customer to set
+	 */
+	public void setCustomer(CustomerVO customer) {
+		this.customer = customer;
 	}
 }

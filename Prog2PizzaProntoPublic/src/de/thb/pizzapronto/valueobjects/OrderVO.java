@@ -1,3 +1,4 @@
+package de.thb.pizzapronto.valueobjects;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -6,9 +7,8 @@ import java.util.LinkedList;
 public class OrderVO {
 	
 	private int MAX_DISHES = 10;
-	private static int nextOrderNo = 0;
 	private final int orderNo;
-	private String state = "started";
+	private String state;		// started -> confirmed -> ready -> delivered -> finished
 	private int index;
 	LocalDateTime timestampStartedOrder;
 	LocalDateTime timestampDeliveredOrder;
@@ -20,19 +20,21 @@ public class OrderVO {
      * Constructors
      */
     public OrderVO() {
-        this(null, null);        
-        //timestampStartedOrder = LocalDateTime.now();
+        this(0, null, null, null);
     }
     
-    public OrderVO(LocalDateTime timestampStartedOrder, CustomerVO customer) {
-    	orderNo = nextOrderNo++;
+    public OrderVO(int orderNo, String state, LocalDateTime timestampStartedOrder, CustomerVO customer) {
+    	//TODO: generate Order Number
+    	this.orderNo = 0;
+    	this.state = state;
     	this.setTimestampStartedOrder(timestampStartedOrder);
     	this.customer = customer;
     	this.shoppingBasket = new DishVO[MAX_DISHES];
     }
-        
+
     
-    /*
+
+	/*
      * Helper / General Methods
      */    
 	@Override
@@ -97,7 +99,7 @@ public class OrderVO {
 		}
 	}
 	
-	public void deleteDish(int index) {
+	public void deleteDish() {
 		if(this.shoppingBasket[index] != null) {
 			this.shoppingBasket[index] = null;
 			this.index--;

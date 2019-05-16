@@ -1,3 +1,4 @@
+package de.thb.pizzapronto.valueobjects;
 import java.text.DecimalFormat;
 
 public class MenuVO {

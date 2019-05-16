@@ -1,3 +1,4 @@
+package de.thb.pizzapronto.valueobjects;
 
 
 public class PizzaVO extends DishVO implements Cloneable {

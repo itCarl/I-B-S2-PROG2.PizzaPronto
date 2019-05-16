@@ -1,3 +1,4 @@
+package de.thb.pizzapronto.valueobjects;
 
 
 public class DessertVO extends DishVO {

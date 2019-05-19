@@ -1,12 +1,13 @@
 package de.thb.pizzapronto.logic;
 
 import java.time.LocalDateTime;
+import java.time.Year;
 
 import de.thb.pizzapronto.valueobjects.*;
 
 /**
  * Ordering - Used to Control the Ordering Process
- * Uebung 7 - 16.05.2019
+ * Uebung 7 - 19.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -27,7 +28,7 @@ public class Ordering implements IOrdering {
 	 */
 	public Ordering() {
 		this.menu = new MenuVO();
-		this.currentOrder = new OrderVO();
+		//this.currentOrder = new OrderVO();
 		//this.currentCustomer = null;
 		this.kitchen = new Kitchen();
 		this.delivery = new Delivery();
@@ -39,19 +40,25 @@ public class Ordering implements IOrdering {
 	 * Helper / Generel methods
 	 */
 	public OrderVO startNewOrder(CustomerVO customer) {		
-		// unnecessary because order starts with state == started
-		this.currentOrder.setState("started");
-		this.currentOrder.setTimestampStartedOrder(LocalDateTime.now());
+		int orderNo;
+		this.nextID++;
 		
 		if(this.menu != null)
 			this.menu = new MenuVO();
 		
-		if(customer != null)
+		if(customer != null) { //Year.now().getValue();
 			this.currentCustomer = customer;
+			
+			//XXX: could have used StringBuffer
+			// Generate Bestellnummer - OrderNo
+			orderNo = Integer.parseInt(
+						Integer.toString(Year.now().getValue()) + 
+						"0000" +
+						Integer.toString(this.nextID));
+			
+			this.currentOrder = new OrderVO(orderNo, "started", LocalDateTime.now(), customer);
+		}
 		
-		this.currentOrder.setCustomer(customer);
-		
-		//TODO: Generate Bestellnummer (OrderNo) customer.year+0000+nextID
 		return this.currentOrder;
 	}
 	
@@ -118,9 +125,13 @@ public class Ordering implements IOrdering {
 			System.out.println("Your order can not be processed.");
 			return;
 		}else if(orderState == "confirmed") {
-			System.out.println(this.kitchen.startService(this.currentOrder));
+			//FIXME: add Name of Koch
+			System.out.format(this.kitchen.startService(this.currentOrder), "nameOfChef");
+			System.out.println("");
 		} else if(orderState == "ready") {
-			System.out.println(this.delivery.startService(this.currentOrder));
+			//FIXME: add Name of Deleveriy Man
+			System.out.format(this.delivery.startService(this.currentOrder), "nameOfDeliveryMan");
+			System.out.println("");
 		} else if(orderState == "delivered") {
 			this.currentOrder.setState("finished");
 			System.out.println("Order completed: " + this.currentOrder.toString());

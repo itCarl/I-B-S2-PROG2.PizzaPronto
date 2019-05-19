@@ -88,7 +88,22 @@ public abstract class DishVO implements Cloneable {
 	}
 	
 	public String ingredientsToString() {
-		return Arrays.toString(ingredients);
+		// could have used stringBuffer
+		String s = "";
+		
+		// alternative -> for(String i : this.ingredients) {}
+		
+		if(this.ingredients != null)
+			for(int i = 0; i < this.ingredients.length; i++) {
+				s += this.ingredients[i];
+				
+				//XXX: just for Beauty porpuses
+				if((i+1) < this.ingredients.length)
+					s += ", ";
+			}
+		
+		return s;
+		// return Arrays.toString(ingredients);
 	}
 	
 	

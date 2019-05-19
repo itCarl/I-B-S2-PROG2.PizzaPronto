@@ -73,7 +73,7 @@ public class MenuVO {
 			} else
 				i++;
 			}
-		} while (i < dishes.length && dishes[i] instanceof PizzaVO );
+		} while (i < dishes.length); // && dishes[i] instanceof PizzaVO 
 		
 		return sb.toString();
 	}

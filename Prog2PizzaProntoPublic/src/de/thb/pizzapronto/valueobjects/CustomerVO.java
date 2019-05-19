@@ -2,11 +2,10 @@ package de.thb.pizzapronto.valueobjects;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 
 /**
  * CustomerVO - Contains the Value Object of Customer
- * Uebung 2 - 16.05.2019
+ * Uebung 2 - 17.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *

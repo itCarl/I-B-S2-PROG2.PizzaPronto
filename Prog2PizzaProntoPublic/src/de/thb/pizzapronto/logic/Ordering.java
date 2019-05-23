@@ -7,15 +7,15 @@ import de.thb.pizzapronto.valueobjects.*;
 
 /**
  * Ordering - Used to Control the Ordering Process
- * Uebung 7 - 19.05.2019
+ * Uebung 7 - 23.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
 public class Ordering implements IOrdering {
 	
-	private MenuVO menu;
-	private int nextID = 0;
+	private static MenuVO menu;
+	private static int nextId = 0;
 	private OrderVO currentOrder;
 	private CustomerVO currentCustomer;
 	private IService kitchen;
@@ -27,9 +27,7 @@ public class Ordering implements IOrdering {
 	 * Constructors
 	 */
 	public Ordering() {
-		this.menu = new MenuVO();
-		//this.currentOrder = new OrderVO();
-		//this.currentCustomer = null;
+		Ordering.menu = new MenuVO();
 		this.kitchen = new Kitchen();
 		this.delivery = new Delivery();
 	}
@@ -41,25 +39,25 @@ public class Ordering implements IOrdering {
 	 */
 	public OrderVO startNewOrder(CustomerVO customer) {		
 		int orderNo;
-		this.nextID++;
 		
-		if(this.menu != null)
-			this.menu = new MenuVO();
+		if(Ordering.menu != null)
+			Ordering.menu = new MenuVO();
 		
-		if(customer != null) { //Year.now().getValue();
-			this.currentCustomer = customer;
-			
-			//XXX: could have used StringBuffer
-			// Generate Bestellnummer - OrderNo
-			orderNo = Integer.parseInt(
-						Integer.toString(Year.now().getValue()) + 
-						"0000" +
-						Integer.toString(this.nextID));
-			
-			this.currentOrder = new OrderVO(orderNo, "started", LocalDateTime.now(), customer);
+		if(customer == null)
+			return null;
+		
+		// Generate Bestellnummer - OrderNo
+		if (LocalDateTime.now().getYear() > (Ordering.nextId / 100000)) {
+			Ordering.nextId = LocalDateTime.now().getYear() * 100000;
 		}
+		Ordering.nextId++;
 		
-		return this.currentOrder;
+		this.currentCustomer = customer;
+			
+		this.currentOrder = new OrderVO(Ordering.nextId, "started", LocalDateTime.now(), customer);
+		this.currentCustomer.setOrder(this.currentOrder);
+			
+		return this.currentOrder;		
 	}
 	
 	public void addDish(DishVO dish) {	
@@ -69,16 +67,22 @@ public class Ordering implements IOrdering {
 			return;
 		}
 		
-		// checks if Order is ready	
-		if(this.currentOrder.getState() == "started") {
-			// add dish to shopping Basket
-			this.currentOrder.addDish(dish);
-		} else {
-			System.out.println("Your order is complete you can not add any dishes.");
+		if(this.currentOrder.getState() != "started") {
+			System.out.println("Your order is complete, you can not add any dishes.");
+			return;
 		}
+		
+		// add dish to shopping Basket
+		this.currentOrder.addDish(dish);
 	}
 	
 	public void deleteDish() {
+		
+		if(this.currentOrder == null) {
+			System.out.println("Error: There is no order.");
+			return;
+		}
+		
 		if(this.currentOrder.getState() == "started") {
 			// delete dish from shopping Basket
 			this.currentOrder.deleteDish();
@@ -93,12 +97,7 @@ public class Ordering implements IOrdering {
 			return 0.0f;
 		}		
 		
-		// checks if Order is confirmed
-		if(this.currentOrder.getState() == "confirmed") {
-			return this.currentOrder.calculatePriceDishes();
-		} else {
-			return 0.0f;
-		}
+		return this.currentOrder.calculatePriceDishes();
 	}
 	
 	public void confirmOrder() {
@@ -109,29 +108,35 @@ public class Ordering implements IOrdering {
 		
 		// checks if Order is started	
 		if(this.currentOrder.getState() == "started") {
-			this.currentOrder.setState("confirmed");
+			this.currentOrder.setState("finished");
 		} else {
 			System.out.println("Your order can not be confirmed");
 		}
 	}
 	
 	public void startService() {
-		String orderState = this.currentOrder.getState();
 		
 		if(this.currentOrder == null) {
 			System.out.println("Error: There is no order.");
 			return;
-		} else if(orderState == "started") {
+		}
+		
+		String orderState = this.currentOrder.getState();
+			
+		if(orderState == "started") {
 			System.out.println("Your order can not be processed.");
 			return;
+			
 		}else if(orderState == "confirmed") {
 			//FIXME: add Name of Koch
-			System.out.format(this.kitchen.startService(this.currentOrder), "nameOfChef");
-			System.out.println("");
+			System.out.println(this.kitchen.startService(this.currentOrder));
+			this.startService();
+			
 		} else if(orderState == "ready") {
 			//FIXME: add Name of Deleveriy Man
-			System.out.format(this.delivery.startService(this.currentOrder), "nameOfDeliveryMan");
-			System.out.println("");
+			System.out.println(this.delivery.startService(this.currentOrder));
+			this.startService();
+			
 		} else if(orderState == "delivered") {
 			this.currentOrder.setState("finished");
 			System.out.println("Order completed: " + this.currentOrder.toString());
@@ -140,6 +145,34 @@ public class Ordering implements IOrdering {
 	}
 
 
+
+	/**
+	 * @return the menu
+	 */
+	public static MenuVO getMenu() {
+		return menu;
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public static void setMenu(MenuVO menu) {
+		Ordering.menu = menu;
+	}
+
+	/**
+	 * @return the nextId
+	 */
+	public static int getNextId() {
+		return nextId;
+	}
+
+	/**
+	 * @param nextId the nextId to set
+	 */
+	public static void setNextId(int nextId) {
+		Ordering.nextId = nextId;
+	}
 
 	/**
 	 * @return the currentOrder
@@ -195,19 +228,5 @@ public class Ordering implements IOrdering {
 	 */
 	public void setDelivery(IService delivery) {
 		this.delivery = delivery;
-	}
-
-	/**
-	 * @return the menu
-	 */
-	public MenuVO getMenu() {
-		return menu;
-	}
-
-	/**
-	 * @return the nextID
-	 */
-	public int getNextID() {
-		return nextID;
 	}
 }

@@ -83,7 +83,7 @@ public abstract class DishVO implements Cloneable {
 	
 	@Override
 	public String toString() {
-		return "DishVO [number=" + number + ", name=" + name + ", ingredients=" + this.ingredientsToString()
+		return "DishVO [number=" + this.number + ", name=" + name + ", ingredients=" + this.ingredientsToString()
 				+ ", price=" + price + "]";
 	}
 	

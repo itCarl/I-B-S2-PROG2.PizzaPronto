@@ -2,7 +2,7 @@ package de.thb.pizzapronto.valueobjects;
 
 /**
  * EmployeeVO - Contains the Value Object of Employees
- * Uebung 5 - 16.05.2019
+ * Uebung 5 - 23.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -14,11 +14,12 @@ public abstract class EmployeeVO extends PersonVO {
 	protected int vacationDays;
 	
 	
+	
 	/*
 	 * Constructors
 	 */
 	public EmployeeVO() {
-		
+		this(null, null, null);
 	}
 	
 	public EmployeeVO(String personnelNo, String lastName, String firstName) {
@@ -26,6 +27,7 @@ public abstract class EmployeeVO extends PersonVO {
 		this.setPersonnelNo(personnelNo);
 	}
 
+	
 
 	/*
 	 * Helper / General Methods
@@ -57,9 +59,11 @@ public abstract class EmployeeVO extends PersonVO {
 
 	@Override
 	public String toString() {
-		return super.toString() + " -> Employee [personnelNo=" + personnelNo + ", salary=" + salary + ", vacationDays=" + vacationDays + "]";
+		return super.toString() + " -> Employee [personnelNo=" + this.personnelNo + ", salary=" + this.salary + ", vacationDays=" + this.vacationDays + "]";
 	}
 
+	
+	
 	/**
 	 * @return the personnelNo
 	 */
@@ -85,7 +89,14 @@ public abstract class EmployeeVO extends PersonVO {
 	 * @param salary the salary to set
 	 */
 	public void setSalary(float salary) {
-		this.salary = salary;
+		/*if(salary > 0.0f) {
+			this.salary = salary;
+		} else {
+			this.salary = -1;
+		}*/
+		
+		this.salary = (salary > 0.0f) ? salary : -1;
+		
 	}
 
 	/**
@@ -99,7 +110,7 @@ public abstract class EmployeeVO extends PersonVO {
 	 * @param vacationDays the vacationDays to set
 	 */
 	public void setVacationDays(int vacationDays) {
-		this.vacationDays = vacationDays;
+		this.vacationDays = (vacationDays >= 0) ? vacationDays : -1;
 	}
 
 }

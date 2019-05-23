@@ -65,15 +65,28 @@ public class PizzaVO extends DishVO implements Cloneable {
 
     @Override
 	public String toString() {
-		return "PizzaVO [size=" + size + "]";
+		return "PizzaVO [name="+ this.getNameOfDish() +",size="+ this.size +"]";
 	}
     
 	public String getNameOfDish() {
-		return super.getName();
+		String s = "";
+		
+		switch (this.size) {
+		case 1:
+			s = "Normal";
+			break;
+		case 2:
+			s = "Grande";
+			break;
+		default:
+			s = "Fehler";
+		}
+		
+		return "Pizza " + this.name + " - " + s;
 	}
 	
 	public int getNumberOfDish() {
-		return super.getNumber();
+		return this.number * 10 + this.size;
 	}
 	
 	

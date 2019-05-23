@@ -16,7 +16,7 @@ public class Delivery implements IService{
 
 	private EmployeeVO[] employees;
 	//XXX: temporary number
-	private int TEMP = 3; 
+	private final int TEMP = 3; 
 	
 	
 	
@@ -40,12 +40,13 @@ public class Delivery implements IService{
 		String s, deliveredDate, deliveredTime;
 		
 		// Select randomly a Delivery Dude
-		this.selectEmployee();
+		EmployeeVO e = this.selectEmployee();
+		String employee = e.getPersonnelNo();
 		
 		if(order == null) {
-			return "Service of DeliveryManVO %s: No order available.";
+			return "Service of DeliveryManVO "+ employee +": No order available.";
 		} else if(order.getCustomer() == null) {
-			return "Service of DeliveryManVO %s: No customer available.";
+			return "Service of DeliveryManVO "+ employee +": No customer available.";
 		} else if(order.getState() == "ready") {
 			order.setState("delivered");
 			order.setTimestampDeliveredOrder(LocalDateTime.now());
@@ -56,10 +57,10 @@ public class Delivery implements IService{
 			s = "Drive to customer "+ order.getCustomer().getFirstName() +" "+ order.getCustomer().getLastName() +", ";
 			s += "in "+ order.getCustomer().getStreet() +" "+ order.getCustomer().getHouseNumber();
 			s += "\n";
-		    s += "Service of DeliveryManVO %s: Order is delivered on "+ deliveredDate +" at "+ deliveredTime +" o'clock";
+		    s += "Service of DeliveryManVO "+ employee +": Order is delivered on "+ deliveredDate +" at "+ deliveredTime +" o'clock";
 			return s;
 		} else {
-			return "Service of DeliveryManVO %s: No order for processing available.";
+			return "Service of DeliveryManVO "+ employee +": No order is ready for processing.";
 		}
 	}
 	
@@ -68,5 +69,21 @@ public class Delivery implements IService{
 		int ranNum = random.nextInt(this.employees.length);
 		
 		return employees[ranNum];
+	}
+
+
+
+	/**
+	 * @return the employees
+	 */
+	public EmployeeVO[] getEmployees() {
+		return employees;
+	}
+
+	/**
+	 * @param employees the employees to set
+	 */
+	public void setEmployees(EmployeeVO[] employees) {
+		this.employees = employees;
 	}
 }

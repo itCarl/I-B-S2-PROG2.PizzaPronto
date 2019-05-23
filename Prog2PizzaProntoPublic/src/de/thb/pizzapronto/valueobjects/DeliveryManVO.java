@@ -9,7 +9,7 @@ package de.thb.pizzapronto.valueobjects;
  */
 public class DeliveryManVO extends EmployeeVO {
 	
-	private String driverLicense;
+	private String driverLicence;
 	
 	
 	
@@ -31,6 +31,22 @@ public class DeliveryManVO extends EmployeeVO {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " -> DeliveryMan [driverLicense=" + driverLicense + "]";
+		return super.toString() + " -> DeliveryMan [driverLicense=" + driverLicence + "]";
+	}
+	
+	
+
+	/**
+	 * @return the driverLicense
+	 */
+	public String getDriverLicence() {
+		return driverLicence;
+	}
+
+	/**
+	 * @param driverLicense the driverLicense to set
+	 */
+	public void setDriverLicence(String driverLicence) {
+		this.driverLicence = driverLicence;
 	}
 }

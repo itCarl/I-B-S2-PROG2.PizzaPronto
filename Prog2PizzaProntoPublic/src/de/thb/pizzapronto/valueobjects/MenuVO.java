@@ -4,16 +4,16 @@ import java.text.DecimalFormat;
 
 /**
  * MenuVO - Contains the Value Object of Menus
- * Uebung 6 - 16.05.2019
+ * Uebung 6 - 21.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
 public class MenuVO {
 	
-	
-	private int NUMBER_OF_DISHES = 18;
+	private static final int NUMBER_OF_DISHES = 18;
 	private DishVO[] dishes;
+	
 	
 	
 	/*
@@ -89,7 +89,7 @@ public class MenuVO {
 	/**
 	 * @return the number of dishes
 	 */
-	public int getNumberOfDishes() {
+	public static int getNumberOfDishes() {
 		return NUMBER_OF_DISHES;
 	}
 }

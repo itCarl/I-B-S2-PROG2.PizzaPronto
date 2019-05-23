@@ -2,7 +2,7 @@ package de.thb.pizzapronto.valueobjects;
 
 /**
  * PersonVO - Contains the Value Object of Persons
- * Uebung 5 - 16.05.2019
+ * Uebung 5 - 23.05.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -41,7 +41,7 @@ public abstract class PersonVO {
 	 */
 	@Override
 	public String toString() {
-		return "Person [lastName=" + this.lastName + ", firstName=" + this.firstName + ", street=" + street + ", houseNumber="
+		return "Person [lastName=" + this.lastName + ", firstName=" + this.firstName + ", street=" + this.street + ", houseNumber="
 				+ this.houseNumber + "]";
 	}
 

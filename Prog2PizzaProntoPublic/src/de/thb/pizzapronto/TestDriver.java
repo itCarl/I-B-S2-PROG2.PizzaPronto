@@ -15,7 +15,7 @@ import de.thb.pizzapronto.valueobjects.*;
 //TODO: Considdering to change to "Error First" - check Method
 public class TestDriver {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoSuchFieldException, SecurityException {
 		Random random = new Random();
 		
 		
@@ -37,7 +37,8 @@ public class TestDriver {
 		 *  BESTELLUNGEN
 		 */
 		Ordering order = new Ordering();
-		DishVO RandomDish = menu.getDish(random.nextInt(menu.getNumberOfDishes()));	// Generate a Random Dish
+		DishVO RandomDish00 = menu.getDish(random.nextInt(menu.getNumberOfDishes()));	// Generate a Random Dish
+		DishVO RandomDish01 = menu.getDish(random.nextInt(menu.getNumberOfDishes()));	// Generate a Random Dish
 		
 		// #1
 		order.startNewOrder(ich);
@@ -50,21 +51,33 @@ public class TestDriver {
 		order.confirmOrder();
 		
 		order.startService();
-		order.startService();
-		order.startService();
 		
 		System.out.println("\n<=================================================================> \n");
 		
 		// #2
 		order.startNewOrder(ZweitesIch);
-		order.addDish(RandomDish);			// Add a Random Dish
-		order.addDish(RandomDish);			// Add a Random Dish
-		order.addDish(RandomDish);			// Add a Random Dish
+		order.addDish(RandomDish00);			// Add a Random Dish
+		order.addDish(RandomDish01);			// Add a Random Dish
+		order.addDish(RandomDish00);			// Add a Random Dish
 		
-		order.confirmOrder();
+//		order.confirmOrder();
+//		
+//		order.startService();
 		
-		order.startService();
-		order.startService();
-		order.startService();
+		System.out.println("\n<=================================================================> \n");
+		
+		
+		// Other tests
+		String test;
+
+		order.getCurrentOrder().setState("confirmed");
+		Delivery d = new Delivery();
+		test = d.startService(order.getCurrentOrder());
+		
+		Class<OrderVO> myOrderClass;
+		myOrderClass = OrderVO.class;
+		System.out.println(myOrderClass.getDeclaredField("shoppingBasket").getType().toString().equals("class de.thb.pizzapronto.valueobjects.DishVO"));
+		
 	}
+	
 }

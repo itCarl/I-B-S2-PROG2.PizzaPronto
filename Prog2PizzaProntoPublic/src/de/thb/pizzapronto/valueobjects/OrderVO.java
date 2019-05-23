@@ -13,10 +13,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class OrderVO {
 	
-	private int MAX_DISHES = 10;
+	private static final int MAX_DISHES = 10;
 	private final int orderNo;
 	private String state;		// started -> confirmed -> ready -> delivered -> finished
-	private int index;
+	private int index = 0;
 	LocalDateTime timestampStartedOrder;
 	LocalDateTime timestampDeliveredOrder;
 	private DishVO[] shoppingBasket;
@@ -101,20 +101,16 @@ public class OrderVO {
 	}
 	
 	public void addDish(DishVO dish) {
-		for(int i = 0; i <= (this.shoppingBasket.length-1); i++) {
-			if(this.shoppingBasket[i] == null) {
-				this.shoppingBasket[i] = dish;
-				this.index++;
-				return;
-			}
+		if(this.index < OrderVO.MAX_DISHES) {
+			this.shoppingBasket[this.index] = dish;
+			this.index++;
 		}
 	}
 	
 	public void deleteDish() {
-		if(this.shoppingBasket[index] != null) {
-			this.shoppingBasket[index] = null;
+		if(this.index > 0) {
 			this.index--;
-			return;
+			this.shoppingBasket[index] = null;
 		}
 	}	
 	
@@ -130,11 +126,12 @@ public class OrderVO {
 	}
 	
 	public DishVO getDish(int index) {
-		return this.shoppingBasket[index];
+		
+		return (this.index > index) ? this.shoppingBasket[index] : null;
 	}
 	
 	public int getNumberOfDishes() {
-		return (this.index+1);
+		return this.index;
 	}
 	
 	public String shoppingBasketToString() {
@@ -162,6 +159,7 @@ public class OrderVO {
 		
 		return s.toString();
 	}
+
 	
 	
 	/**
@@ -176,13 +174,6 @@ public class OrderVO {
 	 */
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	/**
-	 * @return the index
-	 */
-	public int getIndex() {
-		return index;
 	}
 
 	/**
@@ -212,17 +203,7 @@ public class OrderVO {
 	public void setTimestampDeliveredOrder(LocalDateTime timestampDeliveredOrder) {
 		this.timestampDeliveredOrder = timestampDeliveredOrder;
 	}
-	
-	/* OLD VERSION OF SHOPPING BASKET
-	public LinkedList<DishVO> getShoppingBasket() {
-		return shoppingBasket;
-	}
 
-	public void setShoppingBasket(LinkedList<DishVO> shoppingBasket) {
-		this.shoppingBasket = shoppingBasket;
-	}
-	*/
-	
 	/**
 	 * @return the shoppingBasket
 	 */
@@ -238,20 +219,6 @@ public class OrderVO {
 	}
 
 	/**
-	 * @return the orderNo
-	 */
-	public int getOrderNo() {
-		return orderNo;
-	}
-	
-	/**
-	 * @return the maximum amount of dishes
-	 */
-	public int getDishes() {
-		return MAX_DISHES;
-	}
-
-	/**
 	 * @return the customer
 	 */
 	public CustomerVO getCustomer() {
@@ -263,5 +230,26 @@ public class OrderVO {
 	 */
 	public void setCustomer(CustomerVO customer) {
 		this.customer = customer;
+	}
+
+	/**
+	 * @return the maxDishes
+	 */
+	public static int getMAX_DISHES() {
+		return MAX_DISHES;
+	}
+
+	/**
+	 * @return the orderNo
+	 */
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	/**
+	 * @return the index
+	 */
+	public int getIndex() {
+		return index;
 	}
 }

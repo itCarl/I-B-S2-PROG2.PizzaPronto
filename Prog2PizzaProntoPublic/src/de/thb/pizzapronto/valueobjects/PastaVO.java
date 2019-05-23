@@ -66,11 +66,27 @@ public class PastaVO extends DishVO {
 	}
 	
 	public String getNameOfDish() {
-		return super.getName();
+		String s = "";
+		
+		switch (this.typeOfPasta) {
+		case 4:
+			s = "Spaghetti";
+			break;
+		case 5:
+			s = "Tortellini";
+			break;
+		case 6:
+			s = "Gnocchi";
+			break;
+		default:
+			s = "Fehler";
+		}
+		
+		return "Pasta " + this.name + " - " + s;
 	}
 	
 	public int getNumberOfDish() {
-		return super.getNumber();
+		return this.number + this.typeOfPasta * 100;
 	}
 
 	

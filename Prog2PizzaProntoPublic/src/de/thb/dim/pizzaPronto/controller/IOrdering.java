@@ -1,6 +1,6 @@
-package de.thb.pizzapronto.logic;
+package de.thb.dim.pizzaPronto.controller;
 
-import de.thb.pizzapronto.valueobjects.*;
+import de.thb.dim.pizzaPronto.valueObjects.*;
 
 /**
  * IOrdering - Interface for Orders
@@ -17,7 +17,7 @@ public interface IOrdering {
 	 */
 	public OrderVO startNewOrder(CustomerVO customer);
 	public void addDish(DishVO dish);
-	public void deleteDish();
+	public void deleteDish(DishVO dish);
 	public float calculateTotalPrice();
 	public void confirmOrder();	
 }

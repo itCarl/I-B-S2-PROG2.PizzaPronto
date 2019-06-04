@@ -1,11 +1,11 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 /**
  * CustomerVO - Contains the Value Object of Customer
- * Uebung 2 - 17.05.2019
+ * Uebung 2 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -15,7 +15,7 @@ public class CustomerVO extends PersonVO{
     private static int nextID = 0; // global counter
 
     private final int ID;
-    private String gender;		   // Men or Woman 
+    private Gender gender;
     private LocalDate dateOfBirth; // Age > 17
     private OrderVO order;
     
@@ -105,7 +105,7 @@ public class CustomerVO extends PersonVO{
 	/**
 	 * @return the gender
 	 */
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
@@ -113,7 +113,8 @@ public class CustomerVO extends PersonVO{
 	 * @param gender the gender to set
 	 */
     public void setGender(String gender) {
-        this.gender = (gender == "men" || gender == "woman") ? gender : null;
+        //FIXME CustomerVO setGender(String): setGender use enum class 
+    	this.gender = null;
     }
 
 	/**

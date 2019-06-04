@@ -1,6 +1,6 @@
-package de.thb.pizzapronto.logic;
+package de.thb.dim.pizzaPronto.buisnessObjects;
 
-import de.thb.pizzapronto.valueobjects.*;
+import de.thb.dim.pizzaPronto.valueObjects.*;
 
 /**
  * Kitchen - Contains the Kitchen logic
@@ -31,8 +31,8 @@ public class Kitchen implements IService {
 	public String startService(OrderVO order) {
 		if(order == null) {
 			return "Service of ChefVO "+ this.employees[0] +": No order available.";
-		} else if(order.getState() == "confirmed") {
-			order.setState("ready"); 
+		} else if(order.getState() == StateOfOrderVO.CONFIRMED) {
+			order.setState(StateOfOrderVO.READY); 
 			return "Service of ChefVO"+ this.employees[0] +": Order is ready.";
 		}  else {
 			return "Service of ChefVO "+ this.employees[0] +": No order for processing available.";

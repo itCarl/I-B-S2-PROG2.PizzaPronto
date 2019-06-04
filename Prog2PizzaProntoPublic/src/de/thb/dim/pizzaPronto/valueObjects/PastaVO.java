@@ -1,8 +1,11 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
+
+import java.util.ArrayList;
 
 /**
  * PastaVO - Contains the Value Object of Pastas
- * Uebung 6 - 16.05.2019
+ * Uebung 06 - 16.05.2019
+ * Uebung 09 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -20,7 +23,7 @@ public class PastaVO extends DishVO {
 		
 	}
 	
-	public PastaVO(int number, String name, String[] ingredients, float price, int typeOfPasta) {
+	public PastaVO(int number, String name, ArrayList<String> ingredients, float price, int typeOfPasta) {
 		super(number, name, ingredients, price);
 		this.setTypeOfPasta(typeOfPasta);
 	}

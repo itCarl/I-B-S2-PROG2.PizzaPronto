@@ -1,4 +1,4 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
 
 /**
  * DessertVO - Contains the Value Object of Desserts
@@ -41,6 +41,4 @@ public class DessertVO extends DishVO implements Cloneable {
 	public int getNumberOfDish() {
 		return super.getNumber();
 	}
-	
-	
 }

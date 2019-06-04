@@ -1,13 +1,16 @@
-package de.thb.pizzapronto.logic;
+package de.thb.dim.pizzaPronto.buisnessObjects;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.List;
 
-import de.thb.pizzapronto.valueobjects.*;
+import de.thb.dim.pizzaPronto.valueObjects.*;
+import de.thb.dim.pizzaPronto.controller.*;
 
 /**
  * Ordering - Used to Control the Ordering Process
- * Uebung 7 - 23.05.2019
+ * Uebung 07 - 23.05.2019
+ * Uebung 09 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -38,7 +41,6 @@ public class Ordering implements IOrdering {
 	 * Helper / Generel methods
 	 */
 	public OrderVO startNewOrder(CustomerVO customer) {		
-		int orderNo;
 		
 		if(Ordering.menu != null)
 			Ordering.menu = new MenuVO();
@@ -54,7 +56,7 @@ public class Ordering implements IOrdering {
 		
 		this.currentCustomer = customer;
 			
-		this.currentOrder = new OrderVO(Ordering.nextId, "started", LocalDateTime.now(), customer);
+		this.currentOrder = new OrderVO(Ordering.nextId, StateOfOrderVO.STARTED, LocalDateTime.now(), customer);
 		this.currentCustomer.setOrder(this.currentOrder);
 			
 		return this.currentOrder;		
@@ -67,7 +69,7 @@ public class Ordering implements IOrdering {
 			return;
 		}
 		
-		if(this.currentOrder.getState() != "started") {
+		if(this.currentOrder.getState() != StateOfOrderVO.STARTED) {
 			System.out.println("Your order is complete, you can not add any dishes.");
 			return;
 		}
@@ -76,16 +78,16 @@ public class Ordering implements IOrdering {
 		this.currentOrder.addDish(dish);
 	}
 	
-	public void deleteDish() {
+	public void deleteDish(DishVO dish) {
 		
 		if(this.currentOrder == null) {
 			System.out.println("Error: There is no order.");
 			return;
 		}
 		
-		if(this.currentOrder.getState() == "started") {
+		if(this.currentOrder.getState() == StateOfOrderVO.STARTED) {
 			// delete dish from shopping Basket
-			this.currentOrder.deleteDish();
+			this.currentOrder.deleteDish(dish);
 		} else {
 			System.out.println("Your order is complete, you can not delete any dishes.");
 		}
@@ -107,8 +109,8 @@ public class Ordering implements IOrdering {
 		}		
 		
 		// checks if Order is started	
-		if(this.currentOrder.getState() == "started") {
-			this.currentOrder.setState("finished");
+		if(this.currentOrder.getState() == StateOfOrderVO.STARTED) {
+			this.currentOrder.setState(StateOfOrderVO.FINISHED);
 		} else {
 			System.out.println("Your order can not be confirmed");
 		}
@@ -121,27 +123,40 @@ public class Ordering implements IOrdering {
 			return;
 		}
 		
-		String orderState = this.currentOrder.getState();
+		StateOfOrderVO orderState = this.currentOrder.getState();
 			
-		if(orderState == "started") {
+		if(orderState == StateOfOrderVO.STARTED) {
 			System.out.println("Your order can not be processed.");
 			return;
 			
-		}else if(orderState == "confirmed") {
-			//FIXME: add Name of Koch
+		}else if(orderState == StateOfOrderVO.CONFIRMED) {
 			System.out.println(this.kitchen.startService(this.currentOrder));
 			this.startService();
 			
-		} else if(orderState == "ready") {
-			//FIXME: add Name of Deleveriy Man
+		} else if(orderState == StateOfOrderVO.READY) {
 			System.out.println(this.delivery.startService(this.currentOrder));
 			this.startService();
 			
-		} else if(orderState == "delivered") {
-			this.currentOrder.setState("finished");
+		} else if(orderState == StateOfOrderVO.DELIVERED) {
+			this.currentOrder.setState(StateOfOrderVO.FINISHED);
 			System.out.println("Order completed: " + this.currentOrder.toString());
 			this.currentCustomer.setOrder(null);
 		}
+	}
+	
+	public List<DishVO> sortShoppingBasket() {
+		//TODO sortShoppingBasket()
+		return null;
+	}
+	
+	public List<DishVO> sortShoppingBasketByNumber() {
+		//TODO sortShoppingBasketByNumber()
+		return null;
+	}
+	
+	public List<DishVO> sortShoppingBasketByPrice() {
+		//TODO sortShoppingBasketByPrice()
+		return null;
 	}
 
 
@@ -229,4 +244,5 @@ public class Ordering implements IOrdering {
 	public void setDelivery(IService delivery) {
 		this.delivery = delivery;
 	}
+
 }

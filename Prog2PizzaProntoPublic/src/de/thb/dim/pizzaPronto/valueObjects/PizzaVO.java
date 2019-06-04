@@ -1,8 +1,11 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
+
+import java.util.ArrayList;
 
 /**
  * PizzaVO - Contains the Value Object of Pizzas
- * Uebung 2 - 16.05.2019
+ * Uebung 02 - 16.05.2019
+ * Uebung 09 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -19,11 +22,11 @@ public class PizzaVO extends DishVO implements Cloneable {
     public PizzaVO() {
     }
 
-    public PizzaVO(int number, String name, String[] ingredients, float price) {
+    public PizzaVO(int number, String name, ArrayList<String> ingredients, float price) {
     	super(number, name, ingredients, price);
     }
     
-    public PizzaVO(int number, String name, String[] ingredients, float price, int size) {
+    public PizzaVO(int number, String name, ArrayList<String> ingredients, float price, int size) {
     	super(number, name, ingredients, price);
     	this.setSize(size);
     }

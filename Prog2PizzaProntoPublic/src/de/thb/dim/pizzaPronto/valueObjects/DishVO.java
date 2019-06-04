@@ -1,19 +1,21 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * DishVO - Contains the Value Object of Dishes
- * Uebung 6 - 16.05.2019
+ * Uebung 06 - 16.05.2019
+ * Uebung 09 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
-public abstract class DishVO implements Cloneable {
+public abstract class DishVO implements Cloneable, Comparable {
 
 	protected int number;
 	protected String name;
-	protected String[] ingredients;
+	protected ArrayList<String> ingredients;
 	protected float price;
 	
 	
@@ -29,7 +31,7 @@ public abstract class DishVO implements Cloneable {
     	this(number, name, null, price);
     }
     
-    public DishVO(int number, String name, String[] ingredients, float price) {
+    public DishVO(int number, String name, ArrayList<String> ingredients, float price) {
     	this.setNumber(number);
     	this.setName(name);
     	this.setIngredients(ingredients);
@@ -61,7 +63,7 @@ public abstract class DishVO implements Cloneable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(ingredients);
+		//result = prime * result + Arrays.hashCode(ingredients);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + number;
 		result = prime * result + Float.floatToIntBits(price);
@@ -81,6 +83,12 @@ public abstract class DishVO implements Cloneable {
         return false;
 	}
 	
+
+	@Override
+	public int compareTo(Object o) {
+		return 0;
+	}
+	
 	@Override
 	public String toString() {
 		return "DishVO [number=" + this.number + ", name=" + name + ", ingredients=" + this.ingredientsToString()
@@ -94,11 +102,11 @@ public abstract class DishVO implements Cloneable {
 		// alternative -> for(String i : this.ingredients) {}
 		
 		if(this.ingredients != null)
-			for(int i = 0; i < this.ingredients.length; i++) {
-				s += this.ingredients[i];
+			for(int i = 0; i < this.ingredients.size(); i++) {
+				s += this.ingredients.get(i);
 				
 				//XXX: just for Beauty porpuses
-				if((i+1) < this.ingredients.length)
+				if((i+1) < this.ingredients.size())
 					s += ", ";
 			}
 		
@@ -139,14 +147,14 @@ public abstract class DishVO implements Cloneable {
 	/**
 	 * @return the ingredients
 	 */
-	public String[] getIngredients() {
+	public ArrayList<String> getIngredients() {
 		return ingredients;
 	}
 
 	/**
 	 * @param ingredients the ingredients to set
 	 */
-	public void setIngredients(String[] ingredients) {
+	public void setIngredients(ArrayList<String> ingredients) {
 		this.ingredients = ingredients;
 	}
 

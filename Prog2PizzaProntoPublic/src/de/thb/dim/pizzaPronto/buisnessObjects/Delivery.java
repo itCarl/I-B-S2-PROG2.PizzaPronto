@@ -1,9 +1,9 @@
-package de.thb.pizzapronto.logic;
+package de.thb.dim.pizzaPronto.buisnessObjects;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
-import de.thb.pizzapronto.valueobjects.*;
+import de.thb.dim.pizzaPronto.valueObjects.*;
 
 /**
  * Delivery - Contains the Delivery logic
@@ -35,6 +35,7 @@ public class Delivery implements IService{
 	/*
 	 * Helper / Generel Methods
 	 */
+	@Override
 	public String startService(OrderVO order) {
 //		StringBuffer s = new StringBuffer();
 		String s, deliveredDate, deliveredTime;
@@ -47,8 +48,8 @@ public class Delivery implements IService{
 			return "Service of DeliveryManVO "+ employee +": No order available.";
 		} else if(order.getCustomer() == null) {
 			return "Service of DeliveryManVO "+ employee +": No customer available.";
-		} else if(order.getState() == "ready") {
-			order.setState("delivered");
+		} else if(order.getState() == StateOfOrderVO.READY) {
+			order.setState(StateOfOrderVO.DELIVERED);
 			order.setTimestampDeliveredOrder(LocalDateTime.now());
 			
 			deliveredDate = order.getTimestampDeliveredOrder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));

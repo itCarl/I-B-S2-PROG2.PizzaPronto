@@ -1,26 +1,30 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * OrderVO - Contains the Value Object of Orders
- * Uebung 4 - 19.05.2019
+ * Uebung 04 - 19.05.2019
+ * Uebung 09 - 04.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
 public class OrderVO {
 	
-	private static final int MAX_DISHES = 10;
 	private final int orderNo;
-	private String state;		// started -> confirmed -> ready -> delivered -> finished
-	private int index = 0;
+	
+	private StateOfOrderVO state;		// started -> confirmed -> ready -> delivered -> finished
 	LocalDateTime timestampStartedOrder;
 	LocalDateTime timestampDeliveredOrder;
-	private DishVO[] shoppingBasket;
+	private LinkedList<DishVO> shoppingBasket;
 	private CustomerVO customer;
+	
+	
 	
     /*
      * Constructors
@@ -29,12 +33,12 @@ public class OrderVO {
         this(0, null, null, null);
     }
     
-    public OrderVO(int orderNo, String state, LocalDateTime timestampStartedOrder, CustomerVO customer) {
+    public OrderVO(int orderNo, StateOfOrderVO state, LocalDateTime timestampStartedOrder, CustomerVO customer) {
     	this.orderNo = orderNo;
     	this.state = state;
     	this.setTimestampStartedOrder(timestampStartedOrder);
     	this.customer = customer;
-    	this.shoppingBasket = new DishVO[MAX_DISHES];
+    	this.shoppingBasket = new LinkedList<DishVO>();
     }
 
     
@@ -44,6 +48,7 @@ public class OrderVO {
      */    
 	@Override
 	public String toString() {
+		//FIXME OrderVO toString(): Use java.lang.StringBuilder to improve performance	
 		StringBuffer s = new StringBuffer();
 		
 		s.append("OrderVO "+ this.orderNo +" from "+ this.timestampStartedOrderToString() +" "+ this.timestampToTime(this.timestampStartedOrder) +"\n");
@@ -101,17 +106,12 @@ public class OrderVO {
 	}
 	
 	public void addDish(DishVO dish) {
-		if(this.index < OrderVO.MAX_DISHES) {
-			this.shoppingBasket[this.index] = dish;
-			this.index++;
-		}
+		this.shoppingBasket.add(dish);
 	}
 	
-	public void deleteDish() {
-		if(this.index > 0) {
-			this.index--;
-			this.shoppingBasket[index] = null;
-		}
+	//TODO: delte last if no dish is given
+	public void deleteDish(DishVO dish) {
+		this.shoppingBasket.remove(dish);
 	}	
 	
 	public float calculatePriceDishes() {
@@ -126,12 +126,11 @@ public class OrderVO {
 	}
 	
 	public DishVO getDish(int index) {
-		
-		return (this.index > index) ? this.shoppingBasket[index] : null;
+		return this.shoppingBasket.get(index);
 	}
 	
 	public int getNumberOfDishes() {
-		return this.index;
+		return this.shoppingBasket.size();
 	}
 	
 	public String shoppingBasketToString() {
@@ -165,14 +164,14 @@ public class OrderVO {
 	/**
 	 * @return the state
 	 */
-	public String getState() {
+	public StateOfOrderVO getState() {
 		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public void setState(String state) {
+	public void setState(StateOfOrderVO state) {
 		this.state = state;
 	}
 
@@ -207,14 +206,14 @@ public class OrderVO {
 	/**
 	 * @return the shoppingBasket
 	 */
-	public DishVO[] getShoppingBasket() {
+	public LinkedList<DishVO> getShoppingBasket() {
 		return shoppingBasket;
 	}
 
 	/**
 	 * @param shoppingBasket the shoppingBasket to set
 	 */
-	public void setShoppingBasket(DishVO[] shoppingBasket) {
+	public void setShoppingBasket(LinkedList<DishVO> shoppingBasket) {
 		this.shoppingBasket = shoppingBasket;
 	}
 
@@ -230,26 +229,5 @@ public class OrderVO {
 	 */
 	public void setCustomer(CustomerVO customer) {
 		this.customer = customer;
-	}
-
-	/**
-	 * @return the maxDishes
-	 */
-	public static int getMAX_DISHES() {
-		return MAX_DISHES;
-	}
-
-	/**
-	 * @return the orderNo
-	 */
-	public int getOrderNo() {
-		return orderNo;
-	}
-
-	/**
-	 * @return the index
-	 */
-	public int getIndex() {
-		return index;
 	}
 }

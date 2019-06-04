@@ -1,4 +1,4 @@
-package de.thb.pizzapronto.valueobjects;
+package de.thb.dim.pizzaPronto.valueObjects;
 
 /**
  * EmployeeVO - Contains the Value Object of Employees

@@ -2,7 +2,8 @@ package de.thb.dim.pizzaPronto.valueObjects;
 
 /**
  * DessertVO - Contains the Value Object of Desserts
- * Uebung 6 - 16.05.2019
+ * Uebung 06 - 16.05.2019
+ * Uebung 10 - 13.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -27,11 +28,7 @@ public class DessertVO extends DishVO implements Cloneable {
 	 * Helper / Generel Methods
 	 */
     public DessertVO clone() {
-        try {
-            return (DessertVO) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
+        return (DessertVO) super.clone();
     }
     
 	public String getNameOfDish() {

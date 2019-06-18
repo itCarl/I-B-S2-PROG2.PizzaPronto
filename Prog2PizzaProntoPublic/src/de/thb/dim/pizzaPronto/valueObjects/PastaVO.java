@@ -6,11 +6,12 @@ import java.util.ArrayList;
  * PastaVO - Contains the Value Object of Pastas
  * Uebung 06 - 16.05.2019
  * Uebung 09 - 04.06.2019
+ * Uebung 10 - 15.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
-public class PastaVO extends DishVO {
+public class PastaVO extends DishVO implements Cloneable {
 	
 	private int typeOfPasta;
 	
@@ -34,11 +35,7 @@ public class PastaVO extends DishVO {
 	 * Helper / General Methods
 	 */
     public PastaVO clone() {
-        try {
-            return (PastaVO) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
+        return (PastaVO) super.clone();
     }
     
 	@Override

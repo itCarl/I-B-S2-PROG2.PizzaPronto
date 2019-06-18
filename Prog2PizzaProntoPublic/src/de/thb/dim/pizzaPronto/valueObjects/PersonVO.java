@@ -1,5 +1,7 @@
 package de.thb.dim.pizzaPronto.valueObjects;
 
+import de.thb.dim.pizzaPronto.valueObjects.exceptions.CustomerNoDateOfBirthException;
+
 /**
  * PersonVO - Contains the Value Object of Persons
  * Uebung 5 - 23.05.2019

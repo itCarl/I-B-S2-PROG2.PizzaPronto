@@ -1,17 +1,19 @@
 package de.thb.dim.pizzaPronto.valueObjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * DishVO - Contains the Value Object of Dishes
  * Uebung 06 - 16.05.2019
- * Uebung 09 - 04.06.2019
+ * Uebung 09 - 05.06.2019
+ * Uebung 10 - 13.06.2019
+ * Uebung 11 - 17.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
-public abstract class DishVO implements Cloneable, Comparable {
+public abstract class DishVO implements Cloneable, Serializable, Comparable<DishVO> {
 
 	protected int number;
 	protected String name;
@@ -51,13 +53,17 @@ public abstract class DishVO implements Cloneable, Comparable {
 	/*
 	 * Helper / General Methods
 	 */
-//    public DishVO clone() {
-//        try {
-//            return (DishVO) super.clone();
-//        } catch (CloneNotSupportedException e) {
-//            return null;
-//        }
-//    }
+    public DishVO clone() {
+    	Object other = null;
+    	
+        try {
+            other = super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+        
+        return (DishVO) other;
+    }
     
 	@Override
 	public int hashCode() {
@@ -83,10 +89,10 @@ public abstract class DishVO implements Cloneable, Comparable {
         return false;
 	}
 	
-
 	@Override
-	public int compareTo(Object o) {
-		return 0;
+	public int compareTo(DishVO dish) {
+		//XXX: Sort
+		return this.getNumberOfDish() == dish.getNumberOfDish() ? 0 : -1 ;
 	}
 	
 	@Override

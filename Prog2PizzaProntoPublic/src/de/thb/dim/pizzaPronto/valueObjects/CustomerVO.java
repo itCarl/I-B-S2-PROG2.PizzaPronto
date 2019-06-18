@@ -1,16 +1,23 @@
 package de.thb.dim.pizzaPronto.valueObjects;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
+
+import de.thb.dim.pizzaPronto.valueObjects.exceptions.CustomerNoDateOfBirthException;
+import de.thb.dim.pizzaPronto.valueObjects.exceptions.CustomerTooYoungException;
 
 /**
  * CustomerVO - Contains the Value Object of Customer
- * Uebung 2 - 04.06.2019
+ * Uebung 02 - 04.06.2019
+ * Uebung 10 - 15.06.2019
+ * Uebung 11 - 17.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
-public class CustomerVO extends PersonVO{
+public class CustomerVO extends PersonVO implements Serializable {
 
     private static int nextID = 0; // global counter
 
@@ -24,27 +31,29 @@ public class CustomerVO extends PersonVO{
     /*
      * Constructors
      */
-    public CustomerVO() {
+    /*
+    public CustomerVO() throws CustomerTooYoungException, CustomerNoDateOfBirthException {
         this(null, null, null, 0, null, null);
     }
+    */
 
-    public CustomerVO(String lastName, String firstName) {
+    public CustomerVO(String lastName, String firstName) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
     	this(lastName, firstName, null, 0, null, null);
     }
 
-    public CustomerVO(String lastName, String firstName, String gender) {
+    public CustomerVO(String lastName, String firstName, Gender gender) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
         this(lastName, firstName, null, 0, gender, null);
     }
     
-    public CustomerVO(String lastName, String firstName, LocalDate dateOfBirth) {
+    public CustomerVO(String lastName, String firstName, LocalDate dateOfBirth) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
         this(lastName, firstName, null, 0, null, dateOfBirth);
     }
 
-    public CustomerVO(String lastName, String firstName, String gender, LocalDate dateOfBirth) {
+    public CustomerVO(String lastName, String firstName, Gender gender, LocalDate dateOfBirth) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
     	this(lastName, firstName, null, 0, gender, dateOfBirth);
     }
     
-    public CustomerVO (String lastName, String firstName, String street, int houseNumber, String gender, LocalDate dateOfBirth) {
+    public CustomerVO (String lastName, String firstName, String street, int houseNumber, Gender gender, LocalDate dateOfBirth) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
     	super(lastName, firstName, street, houseNumber);  
     	this.ID = nextID++;
     	this.setGender(gender);
@@ -60,7 +69,13 @@ public class CustomerVO extends PersonVO{
     public int hashCode() {
         final int hashMultiplier = 31;
         int hc = 1;
-        hc = hashMultiplier * hc + this.calculateAge();
+        
+        try {
+			hc = hashMultiplier * hc + this.calculateAge();
+		} catch (CustomerNoDateOfBirthException e) {
+			e.printStackTrace();
+		}
+        
         hc = hashMultiplier * hc + ((this.getDateOfBirth() == null) ? 0 : this.getDateOfBirth().hashCode());
         hc = hashMultiplier * hc + ((this.getGender() == null) ? 0 : this.getGender().hashCode());
         hc = hashMultiplier * hc + ((this.getLastName() == null) ? 0 : this.getLastName().hashCode());
@@ -81,23 +96,19 @@ public class CustomerVO extends PersonVO{
         return false;
     }
 	
+    //TODO: dobToString -> exceptions Internal error: no date of birth
     @Override
 	public String toString() {
-		return super.toString() + " -> CustomerVO [ID=" + ID + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", order=" + order
-				+ "]";
+		return super.toString() + " -> CustomerVO [ID=" + this.ID + ", gender=" + this.gender + ", dateOfBirth=" + this.dateOfBirth + ", order=" + this.order + "]";
 	}
 
-	public short calculateAge() {
+	public short calculateAge() throws CustomerNoDateOfBirthException {
     	if (this.getDateOfBirth() == null)
-    		return -1;
+    		throw new CustomerNoDateOfBirthException("Internal error: No date of birth.");
     	
     	short alter = (short) Period.between(this.getDateOfBirth(), LocalDate.now()).getYears();
     	
-    	if (alter < 18) {
-    		return -1;
-    	} else {
-    		return alter;    	
-    	}
+    	return alter;
     }
 	
 	
@@ -112,9 +123,8 @@ public class CustomerVO extends PersonVO{
 	/**
 	 * @param gender the gender to set
 	 */
-    public void setGender(String gender) {
-        //FIXME CustomerVO setGender(String): setGender use enum class 
-    	this.gender = null;
+    public void setGender(Gender gender) {
+    	this.gender = gender;
     }
 
 	/**
@@ -126,12 +136,18 @@ public class CustomerVO extends PersonVO{
 
 	/**
 	 * @param dateOfBirth the dateOfBirth to set
+	 * @throws NullPointerExceptionn, dob must not be null
+	 * @throws CustomerTooYoungException, customer must be older than 17
+	 * @throws CustomerNoDateOfBirthException 
 	 */
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setDateOfBirth(LocalDate dateOfBirth) throws CustomerTooYoungException, CustomerNoDateOfBirthException {
+        
+    	Objects.requireNonNull(dateOfBirth, "DateOfBirth must not be null");
 
-        if (calculateAge() < 17)
-            this.dateOfBirth = null;
+    	this.dateOfBirth = dateOfBirth;
+    	
+        if (this.calculateAge() < 18)
+            throw new CustomerTooYoungException("Customer is not an adult.");
     }
 
 	/**

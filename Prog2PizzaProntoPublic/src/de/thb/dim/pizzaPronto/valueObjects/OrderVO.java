@@ -1,5 +1,6 @@
 package de.thb.dim.pizzaPronto.valueObjects;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,12 +10,14 @@ import java.util.LinkedList;
 /**
  * OrderVO - Contains the Value Object of Orders
  * Uebung 04 - 19.05.2019
- * Uebung 09 - 04.06.2019
+ * Uebung 09 - 05.06.2019
+ * Uebung 10 - 15.06.2019
+ * Uebung 11 - 17.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
  */
-public class OrderVO {
+public class OrderVO implements Serializable {
 	
 	private final int orderNo;
 	

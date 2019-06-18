@@ -3,11 +3,14 @@ package de.thb.dim.pizzaPronto.buisnessObjects;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
+
+import de.thb.dim.pizzaPronto.buisnessObjects.exceptions.*;
 import de.thb.dim.pizzaPronto.valueObjects.*;
 
 /**
  * Delivery - Contains the Delivery logic
- * Uebung 7 - 16.05.2019
+ * Uebung 07 - 16.05.2019
+ * Uebung 10 - 15.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -36,7 +39,7 @@ public class Delivery implements IService{
 	 * Helper / Generel Methods
 	 */
 	@Override
-	public String startService(OrderVO order) {
+	public String startService(OrderVO order) throws NoCustomerException, IllegalStateException {
 //		StringBuffer s = new StringBuffer();
 		String s, deliveredDate, deliveredTime;
 		
@@ -45,9 +48,11 @@ public class Delivery implements IService{
 		String employee = e.getPersonnelNo();
 		
 		if(order == null) {
-			return "Service of DeliveryManVO "+ employee +": No order available.";
+			throw new IllegalStateException("No order available.");
+			
 		} else if(order.getCustomer() == null) {
-			return "Service of DeliveryManVO "+ employee +": No customer available.";
+			throw new NoCustomerException("No customer available.");
+			
 		} else if(order.getState() == StateOfOrderVO.READY) {
 			order.setState(StateOfOrderVO.DELIVERED);
 			order.setTimestampDeliveredOrder(LocalDateTime.now());
@@ -55,13 +60,16 @@ public class Delivery implements IService{
 			deliveredDate = order.getTimestampDeliveredOrder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			deliveredTime = order.getTimestampDeliveredOrder().format(DateTimeFormatter.ofPattern("HH:mm"));
 			
+			// FIXME Delivery startService: use StringBuilder
 			s = "Drive to customer "+ order.getCustomer().getFirstName() +" "+ order.getCustomer().getLastName() +", ";
 			s += "in "+ order.getCustomer().getStreet() +" "+ order.getCustomer().getHouseNumber();
 			s += "\n";
 		    s += "Service of DeliveryManVO "+ employee +": Order is delivered on "+ deliveredDate +" at "+ deliveredTime +" o'clock";
 			return s;
+			
 		} else {
-			return "Service of DeliveryManVO "+ employee +": No order is ready for processing.";
+			throw new IllegalStateException("No order is ready for processing.");
+			
 		}
 	}
 	

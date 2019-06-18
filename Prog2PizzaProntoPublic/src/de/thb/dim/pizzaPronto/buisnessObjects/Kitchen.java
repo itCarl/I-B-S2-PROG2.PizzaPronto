@@ -1,10 +1,12 @@
 package de.thb.dim.pizzaPronto.buisnessObjects;
 
+import de.thb.dim.pizzaPronto.buisnessObjects.exceptions.*;
 import de.thb.dim.pizzaPronto.valueObjects.*;
 
 /**
  * Kitchen - Contains the Kitchen logic
- * Uebung 7 - 23.05.2019
+ * Uebung 07 - 23.05.2019
+ * Uebung 10 - 15.06.2019
  * @author Maximilian Mewes
  * @version 1.0
  *
@@ -28,14 +30,20 @@ public class Kitchen implements IService {
 	/*
 	 * Helper / Generel Mothods
 	 */
-	public String startService(OrderVO order) {
+	public String startService(OrderVO order) throws NoCustomerException, IllegalStateException {
+		
 		if(order == null) {
-			return "Service of ChefVO "+ this.employees[0] +": No order available.";
-		} else if(order.getState() == StateOfOrderVO.CONFIRMED) {
+			throw new IllegalStateException("No order available."); 
+			
+		}
+		
+		if(order.getState() == StateOfOrderVO.CONFIRMED) {
 			order.setState(StateOfOrderVO.READY); 
 			return "Service of ChefVO"+ this.employees[0] +": Order is ready.";
+			
 		}  else {
-			return "Service of ChefVO "+ this.employees[0] +": No order for processing available.";
+			throw new IllegalStateException("No order for processing available.");
+		
 		}
 	}	
 

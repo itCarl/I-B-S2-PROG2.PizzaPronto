@@ -37,11 +37,7 @@ public class PizzaVO extends DishVO implements Cloneable {
      * General Methods
      */
     public PizzaVO clone() {
-        try {
-            return (PizzaVO) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
+        return (PizzaVO) super.clone();
     }
     
     @Override
